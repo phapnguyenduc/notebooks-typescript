@@ -1,0 +1,121 @@
+.btn-back {
+  margin: 10px 0;
+}
+
+.btn-save {
+  margin: 10px 10px 0;
+}
+
+.row-btn {
+  height: auto;
+}
+
+.space-select {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.textarea-style {
+  height: calc(100vh - 224px) !important;
+  /* background-image: repeating-linear-gradient(white 0px, white 24px, teal 25px); */
+  background: linear-gradient(to bottom, white 21px, #00b0d7 1px);
+  background-size: 100% 22px;
+}
+
+.header-style {
+  text-align: center;
+  color: #fff;
+  height: 64px;
+  padding-inline: 50px;
+  line-height: 64px;
+  background-color: #7dbcea;
+}
+
+.content-style {
+  height: 100%;
+  padding-bottom: 64px;
+}
+
+.footer-style {
+  border-top: 1px solid #e8e8e8;
+  background-color: #ffffff;
+  text-align: center;
+  height: 64px;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
+
+.btn-add {
+  margin: 10px 0;
+}
+
+.btn-delete {
+  width: 30px;
+}
+
+.line-note {
+  background-color: #f0f8ff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  border-bottom: none;
+}
+
+.infinite-scroll {
+  margin: 10px 0;
+}
+
+.line-note:hover {
+  background-color: #ffffff;
+}
+
+.col-note {
+  padding: 5px;
+}
+
+.col-note.content,
+.col-note {
+  line-break: anywhere;
+}
+
+.col-note.created {
+  align-items: center;
+  display: flex;
+}
+
+.infinite-scroll {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-bottom: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.col-note.button {
+  text-align: right;
+  display: flex;
+  justify-content: center;
+}
+
+.loader-scroll {
+  text-align: center;
+}
+
+.username-note {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.form-continue-btn {
+  text-align: center;
+}
+
+.col-note.icon {
+  display: flex;
+  justify-content: center;
+}
+
+.download-icon {
+  cursor: pointer;
+  font-size: 18px;
+}

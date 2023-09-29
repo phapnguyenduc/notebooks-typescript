@@ -1,17 +1,21 @@
 import UsersServices from '~/services/users.services'
 
 class User {
-  private _username: string
+  private static _instance: User
+  private _username: string = ''
 
-  /**
-   *
-   * @param username
-   */
-  constructor(username: string) {
-    this._username = username
+  private constructor() {}
+
+  static getInstance() {
+    if (this._instance) {
+      return this._instance
+    }
+
+    this._instance = new User()
+    return this._instance
   }
 
-  public get username(): string {
+  get username(): string {
     return this._username
   }
 
@@ -24,7 +28,18 @@ class User {
    */
   public create() {
     return UsersServices.createUser(this._username)?.then((result) => {
-      return result as { data: object; message: string; status: number }
+      return result
+    })
+  }
+
+  /**
+   * Get user by token
+   * @param token
+   * @returns
+   */
+  public getUser(token: string) {
+    return UsersServices.getUserId(token)?.then((result) => {
+      return result
     })
   }
 }

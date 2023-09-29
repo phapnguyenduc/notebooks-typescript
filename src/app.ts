@@ -1,5 +1,6 @@
 import express from 'express'
 import bodyParser from 'body-parser'
+import cors from 'cors'
 
 class App {
   public app: express.Application
@@ -10,8 +11,9 @@ class App {
   }
 
   private config(): void {
+    this.app.use(cors())
     this.app.use(bodyParser.urlencoded({ extended: false }))
-    this.app.use(express.json());
+    this.app.use(express.json())
   }
 }
 

@@ -1,30 +1,23 @@
 import jwt from 'jsonwebtoken'
-import promisify from 'util'
-
-const sign = promisify.promisify(jwt.sign).bind(jwt)
-const verify = promisify.promisify(jwt.verify).bind(jwt)
 
 class Authenticator {
   async generateToken(payload: object, secretSignature: any, tokenLife: any) {
     try {
-      return await sign(
+      return await jwt.sign(
         {
           payload
         },
         secretSignature,
-        {
-          algorithm: 'none',
-          expiresIn: tokenLife
-        }
+        {}
       )
     } catch (error) {
       console.log(`Error in generate access token:  + ${error}`)
       return null
     }
   }
-  async verifyToken(token: string) {
+  async verifyToken(token: string, secretKey: string) {
     try {
-      return await verify(token)
+      return await jwt.verify(token, secretKey)
     } catch (error) {
       console.log(`Error in verify access token:  + ${error}`)
       return null

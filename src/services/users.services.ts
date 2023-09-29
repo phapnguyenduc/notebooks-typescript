@@ -43,6 +43,23 @@ class UserService {
       console.log(error.message)
     }
   }
+
+  public getUserId(token: string) {
+    try {
+      const sql = 'SELECT u.id FROM user as u WHERE u.token=?'
+      const values = [[token]]
+
+      return new Promise((resolve, reject) => {
+        mysql.query(sql, [values], function (err, result) {
+          if (err) reject(new Error(err.message))
+
+          resolve(result[0].id)
+        })
+      })
+    } catch (error: any) {
+      console.log(error.message)
+    }
+  }
 }
 
 export default new UserService()

@@ -1,3 +1,5 @@
+import NotesServices from '~/services/notes.services'
+
 class Note {
   private _content: string
 
@@ -12,11 +14,15 @@ class Note {
     return this._content
   }
 
-  public set content(v: string) {
-    this._content = v
+  public set content(value: string) {
+    this._content = value
   }
 
-  public paginate() {}
+  public paginate(page: any, token: any) {
+    return NotesServices.getNoteTag(page, token)?.then((result) => {
+      return result
+    })
+  }
 }
 
 export default Note

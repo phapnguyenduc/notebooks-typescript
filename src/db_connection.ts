@@ -12,6 +12,6 @@ const pool = mysql.createPool({
   database: process.env.DB_DATABASE,
   debug: false,
   multipleStatements: true
-});
+})
 
 export default pool
