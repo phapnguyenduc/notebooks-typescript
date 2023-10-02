@@ -16,7 +16,6 @@ const CreateNote = () => {
   const [content, setContent] = useState('')
   const [tagData, setTagData] = useState([])
   const [tagSelect, setTagSelect] = useState([])
-  const [successStatus, setSuccessStatus] = useState(false)
   const [errorStatus, setErrorStatus] = useState(false)
   const [message, setMessage] = useState('')
   const [changeTagStatus, setChangeTagStatus] = useState(false)

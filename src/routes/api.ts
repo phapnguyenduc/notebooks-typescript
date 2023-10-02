@@ -12,6 +12,8 @@ const registerRoutes = (app: any) => {
     route.group('/private', (router) => {
       router.get('/notes/:page', [Auth.isAuth], NoteController.notePaginate)
       router.get('/tags', [Auth.isAuth], TagController.get)
+      router.post('/note/save', [Auth.isAuth], NoteController.save)
+      router.delete('/note/delete/:id', NoteController.delete)
     })
 
     route.post('/user/add', UserController.create)

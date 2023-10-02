@@ -1,36 +1,33 @@
 import Authenticator from '~/middlewares/user.middlewares'
-import dotenv from 'dotenv'
 import mysql from '~/db_connection'
 import jwt from '~/constants/jwt'
-
-dotenv.config()
 
 class UserService {
   /**
    *
    * @param username
    */
-  public createUser(username: string) {
+  public createUser(username: string, password: string) {
     try {
-      const sql = 'INSERT INTO user (username, token) VALUES ?'
+      const sql = 'INSERT INTO user (username, password) VALUES ?'
       const accessTokenLife = process.env.ACCESS_TOKEN_LIFE || jwt.accessTokenLife
       const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET || jwt.accessTokenSecret
-      const dataForAccessToken = {
-        username: username
-      }
 
-      return Authenticator.generateToken(dataForAccessToken, accessTokenSecret, accessTokenLife).then((accessToken) => {
-        const values = [[username, accessToken]]
+      const values = [[username, password]]
+      return new Promise((resolve, reject) => {
+        mysql.query(sql, [values], (err: any, result: any) => {
+          if (err)
+            reject({
+              data: { token: '' },
+              message: 'Add new user failed',
+              status: 500
+            })
 
-        return new Promise((resolve, reject) => {
-          mysql.query(sql, [values], (err: any, result: any) => {
-            if (err)
-              reject({
-                data: { token: '' },
-                message: 'Add new user failed',
-                status: 500
-              })
-
+          const dataForAccessToken = {
+            userId: result.insertId,
+            username: username
+          }
+          Authenticator.generateToken(dataForAccessToken, accessTokenSecret, accessTokenLife).then((accessToken) => {
             resolve({
               data: { token: accessToken },
               message: 'Add new user successfully',
@@ -44,6 +41,11 @@ class UserService {
     }
   }
 
+  /**
+   * Get user id by token verified
+   * @param token
+   * @returns
+   */
   public getUserId(token: string) {
     try {
       const sql = 'SELECT u.id FROM user as u WHERE u.token=?'

@@ -27,20 +27,9 @@ class User {
    * Create new user and generate token
    */
   public create() {
-    return UsersServices.createUser(this._username)?.then((result) => {
-      return result
-    })
-  }
-
-  /**
-   * Get user by token
-   * @param token
-   * @returns
-   */
-  public getUser(token: string) {
-    return UsersServices.getUserId(token)?.then((result) => {
-      return result
-    })
+    // return UsersServices.createUser(this._username)?.then((result) => {
+    //   return result
+    // })
   }
 }
 

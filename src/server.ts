@@ -1,8 +1,5 @@
 import app from './app'
-import dotenv from 'dotenv'
 import registerRoutes from './routes/api'
-
-dotenv.config()
 
 const PORT = process.env.PORT || 5000
 
