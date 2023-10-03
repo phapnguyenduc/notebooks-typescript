@@ -4,6 +4,7 @@ import UserController from '~/controllers/users.controllers'
 import NoteController from '~/controllers/notes.controllers'
 import Auth from '~/middlewares/auth.middlewares'
 import TagController from '~/controllers/tags.controllers'
+import UserValidate from '~/validates/users.validates'
 
 const root = new RouteGroup('/', Router())
 
@@ -13,10 +14,10 @@ const registerRoutes = (app: any) => {
       router.get('/notes/:page', [Auth.isAuth], NoteController.notePaginate)
       router.get('/tags', [Auth.isAuth], TagController.get)
       router.post('/note/save', [Auth.isAuth], NoteController.save)
-      router.delete('/note/delete/:id', NoteController.delete)
+      router.delete('/note/delete/:id', [Auth.isAuth], NoteController.delete)
     })
 
-    route.post('/user/add', UserController.create)
+    route.post('/user/add', UserValidate.validate(), UserController.createOrLogin)
   })
   app.use('/', root.export())
 }

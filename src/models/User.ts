@@ -1,18 +1,10 @@
-import UsersServices from '~/services/users.services'
+export class User {
+  private _username: string
+  private _password: string
 
-class User {
-  private static _instance: User
-  private _username: string = ''
-
-  private constructor() {}
-
-  static getInstance() {
-    if (this._instance) {
-      return this._instance
-    }
-
-    this._instance = new User()
-    return this._instance
+  public constructor(username: string = '', password: string = '') {
+    this._username = username
+    this._password = password
   }
 
   get username(): string {
@@ -23,14 +15,11 @@ class User {
     this._username = value
   }
 
-  /**
-   * Create new user and generate token
-   */
-  public create() {
-    // return UsersServices.createUser(this._username)?.then((result) => {
-    //   return result
-    // })
+  get password(): string {
+    return this._password
+  }
+
+  set password(value: string) {
+    this._password = value
   }
 }
-
-export default User

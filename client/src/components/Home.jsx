@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from '../config/axios-config'
 import { useNavigate } from 'react-router-dom'
-import { Button, Col, Form, Input, Row } from 'antd'
+import { Alert, Button, Col, Form, Input, Row } from 'antd'
 import routeConfig from '../config/route-config'
 import apiUrlConfig from '../config/api-url-config'
 
@@ -11,19 +11,26 @@ const onFinishFailed = (errorInfo) => {
 
 const Home = () => {
   const navigate = useNavigate()
-
+  const [errMessage, setErrMessage] = useState([]);
   const onFinish = (values) => {
     if (!localStorage.getItem('token')) {
       axios
         .post(apiUrlConfig('user-add'), values)
         .then((res) => {
-          localStorage.setItem('token', res.data.token)
-          localStorage.setItem('username', values.username)
-          navigate(routeConfig('notes'))
+          if (!res.data.validate) {
+            setErrMessage(res.data.message)
+            setTimeout(() => {
+              setErrMessage([])
+            }, 5000)
+          } else {
+            localStorage.setItem('token', res.data.data.token)
+            localStorage.setItem('username', res.data.data.username)
+            navigate(routeConfig('notes'))
+          }
         })
         .catch((error) => console.log(error))
     }
-    navigate(routeConfig('notes'))
+    // navigate(routeConfig('notes'))
   }
 
   useEffect(() => {
@@ -36,10 +43,18 @@ const Home = () => {
 
   return (
     <>
-      <Form onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete='off'>
-        <Row className='username-note'>
-          <Col span={24}>
+      <Row className='username-note'>
+        <Col xs={24} lg={12} xl={10} span={10}>
+          <Row>
+            <Col span={24}>
+              {errMessage?.map((message, k) => {
+                return <Alert key={k} message={message} type="error" showIcon />
+              })}
+            </Col>
+          </Row>
+          <Form layout="vertical" onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete='off'>
             <Form.Item
+              label='User name: '
               name='username'
               rules={[
                 {
@@ -48,18 +63,28 @@ const Home = () => {
                 }
               ]}
             >
-              <Input placeholder='Your name' />
+              <Input min={6} placeholder='Your name' />
             </Form.Item>
-          </Col>
-          <Col span={24}>
+            <Form.Item
+              label='Password: '
+              name='password'
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your password at least 6 characters !'
+                }
+              ]}
+            >
+              <Input type='password' min={6} placeholder='Password' />
+            </Form.Item>
             <Form.Item className='form-continue-btn'>
               <Button className='continue-btn' type='primary' htmlType='submit'>
-                Continue
+                Login
               </Button>
             </Form.Item>
-          </Col>
-        </Row>
-      </Form>
+          </Form>
+        </Col>
+      </Row>
     </>
   )
 }

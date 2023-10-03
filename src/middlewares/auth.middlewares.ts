@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from 'express'
 import Authenticator from '~/middlewares/user.middlewares'
 import jwtVariable from '../constants/jwt'
-import UserService from '~/services/users.services'
+import response from '~/constants/response'
+import Status from '~/constants/status'
 
 class AuthMiddlewares {
   /**
@@ -15,7 +16,7 @@ class AuthMiddlewares {
     const accessTokenFromHeader = req.headers.x_authorization as string
     if (!accessTokenFromHeader) {
       delete req.session.userId
-      return res.status(401).send('Not found access token!')
+      return response([], ['Not found access token!'], Status.UNAUTHORIZED)
     }
 
     const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET || jwtVariable.accessTokenSecret
@@ -23,7 +24,7 @@ class AuthMiddlewares {
 
     if (!verified) {
       delete req.session.userId
-      return res.status(401).send('Access denied !!')
+      return response([], ['Access denied !!'], Status.UNAUTHORIZED)
     }
 
     const decodeToken = await Authenticator.decodeToken(accessTokenFromHeader, accessTokenSecret)
