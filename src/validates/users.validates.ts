@@ -1,14 +1,14 @@
 import { Request } from 'express'
 import { body, validationResult } from 'express-validator'
-import response from '~/constants/response'
-import Status from '~/constants/status'
+import dataRes from '~/constants/data.response'
+import { Message } from '~/constants/message'
 
 class UserValidate {
   validate() {
     return [
-      body('username', 'Username does not empty').notEmpty(),
-      body('username', 'Username more than 6 characters').isLength({ min: 6 }),
-      body('password', 'Password more than 6 characters').isLength({ min: 6 })
+      body('username', Message.VALIDATE_USERNAME_EMPTY).notEmpty(),
+      body('username', Message.VALIDATE_USERNAME_LENGTH).isLength({ min: 6 }),
+      body('password', Message.VALIDATE_PASSWORD_LENGTH).isLength({ min: 6 })
     ]
   }
 
@@ -18,9 +18,9 @@ class UserValidate {
       const messageError = errors.array().map((err) => {
         return err.msg
       })
-      return response([], messageError, Status.SUCCESS, false)
+      return dataRes([], messageError, false)
     }
-    return response([], ['User validates success'], Status.SUCCESS, true)
+    return dataRes([], [Message.VALIDATE_USER_SUCCESS], true)
   }
 }
 

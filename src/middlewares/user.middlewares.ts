@@ -15,7 +15,9 @@ class Authenticator {
           payload
         },
         secretSignature,
-        {}
+        {
+          expiresIn: tokenLife
+        }
       )
     } catch (error) {
       console.log(`Error in generate access token:  + ${error}`)

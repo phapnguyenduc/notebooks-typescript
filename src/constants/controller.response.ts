@@ -1,5 +1,5 @@
 import { Response } from 'express'
 
-export default (res: Response, data: any) => {
-  return res.status(data.status).send(data)
+export default (res: Response, status: number, data: any) => {
+  return res.status(status).send(data)
 }

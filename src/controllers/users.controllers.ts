@@ -1,12 +1,14 @@
 import { NextFunction, Request, Response } from 'express'
-import bcrypt from 'bcrypt'
 import UserService from '~/services/users.services'
 import response from '~/constants/controller.response'
 import ExceptionRes from '~/constants/exception.response'
 import UserValidate from '~/validates/users.validates'
 import Status from '~/constants/status'
-
-const SALT_ROUNDS = 10
+import dataResponse from '~/constants/data.response'
+import { Message } from '~/constants/message'
+import { comparePassword } from '~/helper/bcrypt.password'
+import exceptionHandle from '~/constants/exception.handle'
+import { ExceptionType } from '~/constants/exception.types'
 
 class UserController {
   /**
@@ -18,41 +20,35 @@ class UserController {
   async createOrLogin(req: Request, res: Response, next: NextFunction) {
     const validateData = UserValidate.handleValidate(req)
     if (!validateData.validate) {
-      return response(res, validateData)
+      return response(res, Status.BAD_REQUEST, validateData)
     }
     const usernameReq = req.body.username
     const passwordReq = req.body.password
-    //Get user by username
-    UserService.getUser(usernameReq)?.then((result: any) => {
-      //Username existed on database, continue compare password
-      if (result.status === Status.SUCCESS) {
-        bcrypt
-          .compare(passwordReq, result.data.password)
-          .then((resultCompare) => {
-            delete result.data.password
-            if (resultCompare) {
-              return response(res, result)
+
+    UserService.getUser(usernameReq)
+      .then((result) => {
+        // Check user existed to login, else create new user
+        if (result) {
+          comparePassword(passwordReq, result.password).then((passwordCheck) => {
+            //Check password match with database
+            if (passwordCheck) {
+              return UserService.refreshToken(result).then((dataRes: any) => {
+                if ('exception' in dataRes) return ExceptionRes(res, dataRes.exception.message)
+
+                return response(res, Status.SUCCESS, dataResponse(dataRes.data, [Message.USER_LOGIN_SUCCESS]))
+              })
             }
-            delete result.data.token
-            result.message = ['Wrong password. Please try again !!']
-            result.validate = false
-            return response(res, result)
+            return response(res, Status.BAD_REQUEST, dataResponse([], [Message.USER_LOGIN_FAILED]))
           })
-          .catch((err) => ExceptionRes(res, 'Compare password failed'))
-      } else {
-        bcrypt
-          .genSalt(SALT_ROUNDS)
-          .then((salt) => {
-            return bcrypt.hash(passwordReq, salt)
+        } else {
+          UserService.createUser(usernameReq, passwordReq).then((result: any) => {
+            if ('exception' in result) return ExceptionRes(res, result.exception.message)
+
+            return response(res, Status.SUCCESS, dataResponse(result.data, [Message.USER_CREATE_SUCCESS]))
           })
-          .then((password) => {
-            UserService.createUser(usernameReq, password)?.then((result: any) => {
-              return response(res, result)
-            })
-          })
-          .catch((err) => ExceptionRes(res, 'Hash password failed'))
-      }
-    })
+        }
+      })
+      .catch((err) => ExceptionRes(res, exceptionHandle(ExceptionType.EX_USER_FIND_ONE).exception.message))
   }
 }
 

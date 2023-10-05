@@ -153,7 +153,7 @@ const ListNotes = () => {
                   className='line-note'
                 >
                   <Col className='col-note created' span={2}>
-                    {formatDate(note.created_at)}
+                    {formatDate(note.createdAt)}
                   </Col>
                   <Col className='col-note content-tag' span={20}>
                     <Row className='col-note content'>
@@ -162,8 +162,8 @@ const ListNotes = () => {
                     <Row className='col-note tag'>
                       {note.tags?.map((tag) => {
                         return (
-                          <Tag color='default' key={tag.tag_id}>
-                            {tag.tag_name.toUpperCase()}
+                          <Tag color='default' key={tag.id}>
+                            {tag.name.toUpperCase()}
                           </Tag>
                         )
                       })}

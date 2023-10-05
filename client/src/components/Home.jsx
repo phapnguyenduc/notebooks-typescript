@@ -17,18 +17,16 @@ const Home = () => {
       axios
         .post(apiUrlConfig('user-add'), values)
         .then((res) => {
-          if (!res.data.validate) {
-            setErrMessage(res.data.message)
-            setTimeout(() => {
-              setErrMessage([])
-            }, 5000)
-          } else {
-            localStorage.setItem('token', res.data.data.token)
-            localStorage.setItem('username', res.data.data.username)
-            navigate(routeConfig('notes'))
-          }
+          localStorage.setItem('token', res.data.data.token)
+          localStorage.setItem('username', res.data.data.username)
+          navigate(routeConfig('notes'))
         })
-        .catch((error) => console.log(error))
+        .catch((error) => {
+          setErrMessage(error.response.data.message)
+          setTimeout(() => {
+            setErrMessage([])
+          }, 5000)
+        })
     }
     // navigate(routeConfig('notes'))
   }
@@ -63,7 +61,9 @@ const Home = () => {
                 }
               ]}
             >
-              <Input min={6} placeholder='Your name' />
+              <Input
+                min={6}
+                placeholder='Your name' />
             </Form.Item>
             <Form.Item
               label='Password: '
@@ -75,7 +75,9 @@ const Home = () => {
                 }
               ]}
             >
-              <Input type='password' min={6} placeholder='Password' />
+              <Input type='password'
+                min={6}
+                placeholder='Password' />
             </Form.Item>
             <Form.Item className='form-continue-btn'>
               <Button className='continue-btn' type='primary' htmlType='submit'>

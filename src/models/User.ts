@@ -1,25 +1,61 @@
-export class User {
-  private _username: string
-  private _password: string
+import { UserAttributes, UserInput, UserOutput } from './UserAttributes'
+import sequelizeConnection from '~/db_connection'
+import { DataTypes, Model } from 'sequelize'
+import { Note } from './Note'
 
-  public constructor(username: string = '', password: string = '') {
-    this._username = username
-    this._password = password
-  }
+export class User extends Model<UserAttributes, UserInput> implements UserAttributes {
+  declare id: number
+  declare username: string
+  declare password: string
 
-  get username(): string {
-    return this._username
-  }
-
-  set username(value: string) {
-    this._username = value
-  }
-
-  get password(): string {
-    return this._password
-  }
-
-  set password(value: string) {
-    this._password = value
-  }
+  // timestamps!
+  declare readonly createdAt: Date
+  declare readonly updatedAt: Date
 }
+
+User.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      allowNull: false,
+      primaryKey: true,
+      get() {
+        return this.getDataValue('id')
+      },
+      set(val: number) {
+        this.setDataValue('id', val)
+      }
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      get() {
+        return this.getDataValue('username')
+      },
+      set(val: string) {
+        this.setDataValue('username', val)
+      }
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      get() {
+        return this.getDataValue('password')
+      },
+      set(val: string) {
+        this.setDataValue('password', val)
+      }
+    }
+  },
+  {
+    tableName: 'users',
+    sequelize: sequelizeConnection,
+    timestamps: true,
+    modelName: 'user'
+  }
+)
+
+User.hasMany(Note, { as: 'notes' })
+Note.belongsTo(User, { as: 'users', foreignKey: 'userId' })
