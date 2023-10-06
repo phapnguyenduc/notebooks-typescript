@@ -6,11 +6,25 @@ module.exports = {
     await queryInterface.createTable('note-tag', {
       note_id: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: {
+            tableName: 'notes'
+          },
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
       },
       tag_id: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: {
+            tableName: 'tags'
+          },
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
       },
       createdAt: {
         allowNull: false,

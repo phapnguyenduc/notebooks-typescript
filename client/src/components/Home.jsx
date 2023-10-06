@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from '../config/axios-config'
+import Error from '../message/Error'
 import { useNavigate } from 'react-router-dom'
 import { Alert, Button, Col, Form, Input, Row } from 'antd'
 import routeConfig from '../config/route-config'
@@ -11,7 +12,8 @@ const onFinishFailed = (errorInfo) => {
 
 const Home = () => {
   const navigate = useNavigate()
-  const [errMessage, setErrMessage] = useState([]);
+  const [errorStatus, setErrorStatus] = useState(false)
+  const [message, setMessage] = useState('')
   const onFinish = (values) => {
     if (!localStorage.getItem('token')) {
       axios
@@ -22,9 +24,10 @@ const Home = () => {
           navigate(routeConfig('notes'))
         })
         .catch((error) => {
-          setErrMessage(error.response.data.message)
+          setMessage(error.response.data.message)
+          setErrorStatus(true)
           setTimeout(() => {
-            setErrMessage([])
+            setErrorStatus(false)
           }, 5000)
         })
     }
@@ -45,9 +48,7 @@ const Home = () => {
         <Col xs={24} lg={12} xl={10} span={10}>
           <Row>
             <Col span={24}>
-              {errMessage?.map((message, k) => {
-                return <Alert key={k} message={message} type="error" showIcon />
-              })}
+              {errorStatus && <Error data={message} />}
             </Col>
           </Row>
           <Form layout="vertical" onFinish={onFinish} onFinishFailed={onFinishFailed} autoComplete='off'>

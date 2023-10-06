@@ -1,33 +1,21 @@
-// import mysql from '~/db_connection'
+import dataResponse from '~/constants/data.response'
+import exceptionHandle from '~/constants/exception.handle'
+import { ExceptionType } from '~/constants/exception.types'
+import TagRepository from '~/repositories/tag.repository'
 
-// class TagService {
-//   /**
-//    * Get all of Tags
-//    * @returns
-//    */
-//   public getTags() {
-//     try {
-//       const sql = 'SELECT * FROM tag'
-//       return new Promise((resolve, reject) => {
-//         mysql.query(sql, function (err, result) {
-//           if (err)
-//             reject({
-//               data: [],
-//               message: 'Load data failed',
-//               status: 500
-//             })
+class TagService {
+  /**
+   * Get all of Tags
+   *
+   * @returns
+   */
+  public getTags() {
+    return TagRepository.findAll()
+      .then((result) => {
+        return dataResponse(result)
+      })
+      .catch((err) => exceptionHandle(ExceptionType.EX_TAG_FIND_ALL))
+  }
+}
 
-//           resolve({
-//             data: !result ? [] : result,
-//             message: 'Load tags successfully',
-//             status: 200
-//           })
-//         })
-//       })
-//     } catch (error: any) {
-//       console.log(error.message)
-//     }
-//   }
-// }
-
-// export default new TagService()
+export default new TagService()

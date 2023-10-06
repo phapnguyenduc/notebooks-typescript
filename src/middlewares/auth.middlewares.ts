@@ -18,6 +18,7 @@ class AuthMiddlewares {
     const accessTokenFromHeader = req.headers.x_authorization as string
     if (!accessTokenFromHeader) {
       delete req.session.userId
+      delete req.session.username
       return response(res, Status.UNAUTHORIZED, dataResponse([], [Message.AUTH_NOT_FOUND]))
     }
 
@@ -26,11 +27,13 @@ class AuthMiddlewares {
 
     if (!verified) {
       delete req.session.userId
+      delete req.session.username
       return response(res, Status.UNAUTHORIZED, dataResponse([], [Message.AUTH_ACCESS_DENIED]))
     }
 
     const decodeToken = await Authenticator.decodeToken(accessTokenFromHeader, accessTokenSecret)
     req.session.userId = (<any>decodeToken)?.payload?.userId
+    req.session.username = (<any>decodeToken)?.payload?.username
     return next()
   }
 }

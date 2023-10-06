@@ -35,6 +35,36 @@ export default (type: string) => {
       exceptionRes.exception.message = Message.EX_NOTE_PAGINATE
       break
 
+    case ExceptionType.EX_NOTE_CREATE:
+      exceptionRes.exception.type = ExceptionType.EX_NOTE_CREATE
+      exceptionRes.exception.message = Message.EX_NOTE_CREATE
+      break
+
+    case ExceptionType.EX_NOTE_UPDATE:
+      exceptionRes.exception.type = ExceptionType.EX_NOTE_UPDATE
+      exceptionRes.exception.message = Message.EX_NOTE_UPDATE
+      break
+
+    case ExceptionType.EX_NOTE_DELETE:
+      exceptionRes.exception.type = ExceptionType.EX_NOTE_DELETE
+      exceptionRes.exception.message = Message.EX_NOTE_DELETE
+      break
+
+    case ExceptionType.EX_NOTE_TAG_CREATE:
+      exceptionRes.exception.type = ExceptionType.EX_NOTE_TAG_CREATE
+      exceptionRes.exception.message = Message.EX_NOTE_UPDATE
+      break
+
+    case ExceptionType.EX_NOTE_TAG_UPDATE:
+      exceptionRes.exception.type = ExceptionType.EX_NOTE_TAG_UPDATE
+      exceptionRes.exception.message = Message.EX_NOTE_TAG_UPDATE
+      break
+
+    case ExceptionType.EX_TAG_FIND_ALL:
+      exceptionRes.exception.type = ExceptionType.EX_TAG_FIND_ALL
+      exceptionRes.exception.message = Message.EX_TAG_FIND_ALL
+      break
+
     default:
       exceptionRes.exception.type = ExceptionType.EX_OTHER
       exceptionRes.exception.message = Message.EX_OTHER

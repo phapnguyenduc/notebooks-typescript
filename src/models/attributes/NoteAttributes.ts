@@ -8,6 +8,6 @@ export interface NoteAttributes {
   updatedAt?: Date
 }
 
-export interface NoteInput extends Optional<NoteAttributes, 'id' | 'userId'> {}
+export interface NoteInput extends Optional<NoteAttributes, 'id'> {}
 
 export interface NoteOutput extends Required<NoteAttributes> {}

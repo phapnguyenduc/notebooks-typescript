@@ -1,5 +1,5 @@
-import { UserAttributes, UserInput, UserOutput } from './UserAttributes'
-import sequelizeConnection from '~/db_connection'
+import { UserAttributes, UserInput, UserOutput } from './attributes/UserAttributes'
+import { sequelize } from './index'
 import { DataTypes, Model } from 'sequelize'
 import { Note } from './Note'
 
@@ -51,7 +51,7 @@ User.init(
   },
   {
     tableName: 'users',
-    sequelize: sequelizeConnection,
+    sequelize: sequelize,
     timestamps: true,
     modelName: 'user'
   }

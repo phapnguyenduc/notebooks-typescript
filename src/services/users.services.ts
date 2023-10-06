@@ -12,12 +12,9 @@ class UserService {
    * @param username
    */
   public createUser(username: string, password: string) {
-    const userModel = new User()
-    userModel.username = username
     return hashPassword(password)
       .then((passwordHashed) => {
-        userModel.password = passwordHashed
-        return UserRepository.create(userModel)
+        return UserRepository.create(User.build({ username: username, password: passwordHashed }))
           .then((result) => {
             return this.refreshToken(result)
           })
@@ -28,6 +25,7 @@ class UserService {
 
   /**
    * Get user by username
+   *
    * @param token
    * @returns
    */

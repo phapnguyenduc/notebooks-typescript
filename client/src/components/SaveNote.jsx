@@ -17,7 +17,7 @@ const CreateNote = () => {
   const [tagData, setTagData] = useState([])
   const [tagSelect, setTagSelect] = useState([])
   const [errorStatus, setErrorStatus] = useState(false)
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState([])
   const [changeTagStatus, setChangeTagStatus] = useState(false)
 
   useEffect(() => {
@@ -27,15 +27,15 @@ const CreateNote = () => {
 
     if (!state === false) {
       setContent(state?.content)
-      setTagSelect(state?.tags ? state?.tags?.map((t) => t.tag_id) : [])
+      setTagSelect(state?.tags ? state?.tags?.map((t) => t.id) : [])
     }
 
     noteDataForm.setFieldsValue({
       content: state?.content,
       tags: state?.tags?.map((tag) => {
         return {
-          label: tag.tag_name,
-          value: tag.tag_id
+          label: tag.name,
+          value: tag.id
         }
       })
     })
@@ -56,7 +56,7 @@ const CreateNote = () => {
         setTagData(dataConverted)
       })
       .catch((error) => {
-        setMessage(error.message)
+        setMessage(error.response.data.message)
         setErrorStatus(true)
         setTimeout(() => {
           setErrorStatus(false)
@@ -82,14 +82,13 @@ const CreateNote = () => {
         window.location.replace(routeConfig('notes'))
       })
       .catch((error) => {
-        setMessage(error.message)
+        setMessage(error.response.data.message)
         setErrorStatus(true)
         setTimeout(() => {
           setErrorStatus(false)
         }, 5000)
       })
   }
-
   const handleChange = (value) => {
     setChangeTagStatus(true)
     setTagSelect(value)
@@ -97,7 +96,7 @@ const CreateNote = () => {
 
   return (
     <>
-      {errorStatus && <Error data={{ message: message }} />}
+      {errorStatus && <Error data={message} />}
       <Form
         className='h-100'
         form={noteDataForm}

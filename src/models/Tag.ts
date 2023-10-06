@@ -1,21 +1,5 @@
-// import TagsServices from '~/services/tags.services'
-
-// class Tag {
-//   /**
-//    * Get all of Tags
-//    * @returns
-//    */
-//   public getAll() {
-//     return TagsServices.getTags()?.then((result) => {
-//       return result
-//     })
-//   }
-// }
-
-// export default Tag
-
-import { TagAttributes, TagInput, TagOutput } from './TagAttributes'
-import sequelizeConnection from '~/db_connection'
+import { TagAttributes, TagInput, TagOutput } from './attributes/TagAttributes'
+import { sequelize } from './index'
 import { DataTypes, Model } from 'sequelize'
 
 export class Tag extends Model<TagAttributes, TagInput> implements TagAttributes {
@@ -55,7 +39,7 @@ Tag.init(
   },
   {
     tableName: 'tags',
-    sequelize: sequelizeConnection,
+    sequelize: sequelize,
     timestamps: true,
     modelName: 'tag'
   }
