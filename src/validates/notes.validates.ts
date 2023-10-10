@@ -5,8 +5,6 @@ import { Message } from '~/constants/message'
 
 class NoteValidate {
   validate() {
-    console.log('in')
-
     return [body('content', Message.VALIDATE_NOTE_CONTENT_EMPTY).notEmpty()]
   }
 
