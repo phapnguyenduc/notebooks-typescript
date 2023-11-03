@@ -7,19 +7,19 @@ module.exports = {
       'tags',
       [
         {
-          name: 'Work',
+          name: 'Work'
         },
         {
-          name: 'School',
+          name: 'School'
         },
         {
-          name: 'Personal Information',
+          name: 'Personal Information'
         },
         {
-          name: 'Inportant Information',
+          name: 'Inportant Information'
         },
         {
-          name: 'Others',
+          name: 'Others'
         },
       ], {})
   },
