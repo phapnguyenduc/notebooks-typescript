@@ -52,7 +52,7 @@ class Authenticator {
         ignoreExpiration: true
       })
     } catch (error) {
-      console.log(`Error in decode access token: ${error}`)
+      console.log(`Error decode access token: ${error}`)
       return null
     }
   }

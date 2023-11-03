@@ -23,7 +23,7 @@ class App {
 
   private config(): void {
     const sessionMiddleware = session({
-      secret: process.env.SESSION_SECRET || sessionVariable.sessionSecret,
+      secret: process.env.SESSION_SECRET   ||   sessionVariable.sessionSecret,
       resave: true,
       saveUninitialized: true
     })
