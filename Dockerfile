@@ -4,4 +4,4 @@ COPY package.json .
 COPY . .
 RUN npm install
 
-CMD npm run dev
+CMD npm run devzz

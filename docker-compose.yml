@@ -17,6 +17,13 @@ services:
     networks: 
       - nodejss
 
+  app:
+    container_name: client
+    image: docker-react-i
+    build: ./client
+    ports:
+      - "3000:3000"
+      
   web:
     depends_on:
       - mysql
