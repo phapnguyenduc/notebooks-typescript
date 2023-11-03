@@ -2,7 +2,7 @@ export class Message {
   static USER_CREATE_SUCCESS = 'Create new user success'
   static USER_CREATE_FAILED = 'Create new user failed'
   static USER_LOGIN_SUCCESS = 'Login successfully'
-  static USER_LOGIN_FAILED = 'Wrong password. Please try again !!'
+  static USER_LOGIN_FAILED = 'Wrong password. Please try again'
 
   static VALIDATE_USERNAME_EMPTY = 'Username does not empty'
   static VALIDATE_USERNAME_LENGTH = 'Username more than 6 characters'
