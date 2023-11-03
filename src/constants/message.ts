@@ -31,6 +31,6 @@ export class Message {
   static EX_TAG_FIND_ALL = 'Get all of tags to be got exception'
   static EX_OTHER = 'Other exception'
 
-  static AUTH_NOT_FOUND = 'Not found token!'
-  static AUTH_ACCESS_DENIED = 'Access denied !!'
+  static AUTH_NOT_FOUND = 'Not found token'
+  static AUTH_ACCESS_DENIED = 'Access denied ~~'
 }
