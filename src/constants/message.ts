@@ -26,11 +26,11 @@ export class Message {
   static EX_NOTE_CREATE = 'Note create got exception'
   static EX_NOTE_UPDATE = 'Note update got exception'
   static EX_NOTE_DELETE = 'Note delete got exception'
-  static EX_NOTE_TAG_CREATE = 'Create new record on note_tag table got exception'
-  static EX_NOTE_TAG_UPDATE = 'Update on note_tag table got exception'
-  static EX_TAG_FIND_ALL = 'Get all of tags to be got exception'
+  static EX_NOTE_TAG_CREATE = 'Create new record on note_tag table got exception.'
+  static EX_NOTE_TAG_UPDATE = 'Update on note_tag table got exception.'
+  static EX_TAG_FIND_ALL = 'Get all of tags to be got exception.'
   static EX_OTHER = 'Other exception'
 
-  static AUTH_NOT_FOUND = 'Not found token'
+  static AUTH_NOT_FOUND = 'Not found token ~~~'
   static AUTH_ACCESS_DENIED = 'Access denied ~~'
 }
